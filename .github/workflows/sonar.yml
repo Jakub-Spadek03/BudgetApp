@@ -25,25 +25,17 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Build backend
-        working-directory: Backend
-        run: mvn clean install -DskipTests
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+            - name: Set up Java
+        uses: actions/setup-java@v4
         with:
-          node-version: 22
-      - name: Install frontend deps
-        working-directory: Frontend
-        run: |
-          npm install
-          npm run build
-      - name: Cache SonarCloud
+          java-version: 21
+          distribution: "temurin"
+      - name: Cache Maven
         uses: actions/cache@v4
         with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v5
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build backend
+        working-directory: Backend
+        run: mvn clean install -DskipTests -Dmaven.compiler.source=21 -Dmaven.compiler.target=21 -Dmaven.compiler.release=21

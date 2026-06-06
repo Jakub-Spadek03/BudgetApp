@@ -27,6 +27,7 @@ public class Group {
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Membership> memberships;
 
-    @Transient
-    public Long getOwnerId() { return owner != null ? owner.getId() : null; }
+    public Long getOwnerId() {
+        return owner != null ? owner.getId() : null;
+    }
 }

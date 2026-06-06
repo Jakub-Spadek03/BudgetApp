@@ -20,8 +20,6 @@ public class Debt {
 
     private String title;
 
-    public String getTitle() { return title != null ? title : "Brak opisu"; }
-
     @ManyToOne
     @JoinColumn(name = "debtor_id")
     private User debtor;
